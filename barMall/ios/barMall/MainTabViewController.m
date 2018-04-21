@@ -7,6 +7,8 @@
 //
 
 #import "MainTabViewController.h"
+#import "LoginManager.h"
+#import "LoginViewController.h"
 
 @interface MainTabViewController ()
 
@@ -16,7 +18,15 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+  [super viewDidAppear:animated];
+  
+  if (![LoginManager loginToken]) {
+    LoginViewController *loginVC = [[LoginViewController alloc] init];
+    [self presentViewController:loginVC animated:YES completion:nil];
+  }
 }
 
 - (void)didReceiveMemoryWarning {

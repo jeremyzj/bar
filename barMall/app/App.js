@@ -5,6 +5,7 @@
  */
 
 import React, { Component } from 'react'
+import {View} from  'react-native'
 import configureStore from './store'
 import Home from './pages/home'
 import Login from './pages/login'
@@ -20,7 +21,7 @@ export default class App extends Component {
     switch (page) {
       case 'home':
         return <Home/>
-      case 'Login':
+      case 'login':
         return <Login/>
       default:
         return <View/>
