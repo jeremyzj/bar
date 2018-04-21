@@ -1,10 +1,10 @@
 import queryString from 'query-string'
 export const api = {
   schemes: 'http',
-  host: 'hafuyun.com',
+  host: '120.77.216.85',
   basePath: '',
   port: '',
-  domain: 'http://hafuyun.com'
+  domain: 'http://120.77.216.85/dbshop'
 }
 
 const defaults = {
@@ -32,27 +32,11 @@ const checkStatus = response => {
   }
 }
 
-const parseJSON = (method, url, opt) => {
-  return response => {
-    return response.text().then(text => {
-      const json = JSON.parse(text)
-
-      if (__DEV__) {
-        console.log(method + '：', url, (opt.body ? opt.body : ''))
-        console.log('返回：', json)
-      }
-
-      return json
-    })
+const parseJSON = response => {
+  if (__DEV__) {
+    console.log('返回', response)
   }
-}
-
-const checkAuth = response => {
-  if (!response.success) {
-    return Promise.reject(new Error(response.msg))
-  }
-
-  return response
+  return response.json()
 }
 
 const errorHandler = error => {
@@ -72,7 +56,11 @@ const request = (path, options) => {
     delete opt.body
   }
 
-  return fetch(url, opt).then(checkStatus).then(parseJSON(opt.method, url, opt)).then(checkAuth).catch(errorHandler)
+  if (__DEV__) {
+    console.log('请求', url , opt)
+  }
+
+  return fetch(url, opt).then(checkStatus).then(parseJSON).catch(errorHandler)
 }
 
 export default request

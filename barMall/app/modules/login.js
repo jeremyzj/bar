@@ -7,7 +7,7 @@ export const types = {
 }
 
 const sendCodeAPI =  '/front/user/user/sendCode'
-const loginAPI = '/front/user/user/toLogin'
+const loginAPI = '/front/user/user/checkCode'
 
 export const getCodeStatus = {
   GETCODE_STATUS_IDEL: 'GETCODE_STATUS_IDEL',
@@ -17,8 +17,10 @@ export const getCodeStatus = {
 }
 
 export const actions = {
-  [types.CODE]: (params) => {
-    return get(sendCodeAPI, { ...params }).then(response => {
+  [types.CODE]: (params) => dispatch => {
+    let body = {...params}
+    return get(sendCodeAPI, { body }).then(response => {
+      dispatch({type: types.CODE, payload:response})
       return Promise.resolve(response)
     })
   },
@@ -31,13 +33,15 @@ export const actions = {
 }
 
 const initialState = Immutable.fromJS({
-  [types.CODE]: ''
+  [types.CODE]: '',
+  [types.LOGIN]: ''
 })
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case types.LOGIN:
-      return state.set(action.key, action.payload)
+    case types.CODE:
+      return state.set(action.type, action.payload)
     default:
       return state
   }

@@ -41,7 +41,8 @@ class UserLogin extends Component {
       this.setState({ codeStatus: getCodeStatus.GETCODE_STATUS_DONE })
       this._startCountDonw()
       this.codeTextInput && this.codeTextInput.focus()
-    }).catch(() => {
+    }).catch((error) => {
+      console.log('get code',error)
       Toast.show('获取验证码失败')
       this.setState({ codeStatus: getCodeStatus.GETCODE_STATUS_FAIL })
     })

@@ -3,8 +3,15 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
+    "start": "REACT_DEBUGGER=\"rndebugger-open --open --port 8081\" npm run _start",
+    "test": "jest",
+    "_start": "node node_modules/react-native/local-cli/cli.js start",
+    "postinstall": "rndebugger-open",
+    "key": "cd android/app && keytool -genkey -alias nursing-alias -keyalg RSA -validity 20000 -keystore nursing.keystore",
+    "bundle:android": "cd android && ./gradlew assembleRelease && npm run deploy:android",
+    "debug": "open \"rndebugger://set-debugger-loc?host=localhost&port=8081\"",
+    "adb": "~/Library/Android/sdk/platform-tools/adb reverse tcp:8081 tcp:8081",
+    "bundle:js": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/"
   },
   "dependencies": {
     "immutable": "^3.8.2",
